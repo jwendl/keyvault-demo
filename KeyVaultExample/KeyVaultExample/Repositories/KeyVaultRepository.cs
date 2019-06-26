@@ -52,11 +52,7 @@ namespace KeyVaultExample.Repositories
         {
             var certificatePolicy = new CertificatePolicy()
             {
-                KeyProperties = new KeyProperties()
-                {
-                    KeyType = JsonWebKeyType.EllipticCurve,
-                    Curve = JsonWebKeyCurveName.P256,
-                },
+                KeyProperties = keyProperties,
                 X509CertificateProperties = new X509CertificateProperties()
                 {
                     Subject = subject,
@@ -86,11 +82,7 @@ namespace KeyVaultExample.Repositories
         {
             var certificatePolicy = new CertificatePolicy()
             {
-                KeyProperties = new KeyProperties()
-                {
-                    KeyType = JsonWebKeyType.EllipticCurve,
-                    Curve = JsonWebKeyCurveName.P256,
-                },
+                KeyProperties = keyProperties,
                 X509CertificateProperties = new X509CertificateProperties()
                 {
                     Subject = subject,
