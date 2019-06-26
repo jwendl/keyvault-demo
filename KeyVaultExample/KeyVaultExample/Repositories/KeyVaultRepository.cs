@@ -15,8 +15,8 @@ namespace KeyVaultExample.Repositories
     public interface IKeyVaultRepository
     {
         Task<List<CertificateBundle>> GetCertificatesAsync();
-        Task<byte[]> CreateLetsEncryptCertificateAsync(string certificateName, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags);
-        Task CreateSelfSignedCertificateAsync(string certificateName, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags);
+        Task<byte[]> CreateLetsEncryptCertificateAsync(string certificateName, KeyProperties keyProperties, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags);
+        Task CreateSelfSignedCertificateAsync(string certificateName, KeyProperties keyProperties, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags);
         Task MergeCertificateAsync(string certificateName, X509Certificate2Collection x509Certificates);
     }
 
@@ -48,7 +48,7 @@ namespace KeyVaultExample.Repositories
             return certificateBundles;
         }
 
-        public async Task<byte[]> CreateLetsEncryptCertificateAsync(string certificateName, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags)
+        public async Task<byte[]> CreateLetsEncryptCertificateAsync(string certificateName, KeyProperties keyProperties, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags)
         {
             var certificatePolicy = new CertificatePolicy()
             {
@@ -82,7 +82,7 @@ namespace KeyVaultExample.Repositories
             throw new InvalidOperationException("Creating a certificate failed...");
         }
 
-        public async Task CreateSelfSignedCertificateAsync(string certificateName, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags)
+        public async Task CreateSelfSignedCertificateAsync(string certificateName, KeyProperties keyProperties, string subject, IEnumerable<string> subjectAlternativeNames, Dictionary<string, string> tags)
         {
             var certificatePolicy = new CertificatePolicy()
             {
