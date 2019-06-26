@@ -3,6 +3,8 @@ using KeyVaultExample.Models;
 using KeyVaultExample.Repositories;
 using KeyVaultExample.Services;
 using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.KeyVault.Models;
+using Microsoft.Azure.KeyVault.WebKey;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -38,6 +40,13 @@ namespace KeyVaultExample
             var tags = new Dictionary<string, string>
             {
                 { "cert-type", "Let's Encrypt" }
+            };
+
+            // The type of certificate you'd like to request for.
+            var keyProperties = new KeyProperties()
+            {
+                KeyType = JsonWebKeyType.EllipticCurve,
+                Curve = JsonWebKeyCurveName.P256,
             };
 
             // Don't change below unless you want to.
@@ -77,9 +86,9 @@ namespace KeyVaultExample
             var keyVaultRepository = serviceProvider.GetRequiredService<IKeyVaultRepository>();
             var letsEncryptRepository = serviceProvider.GetRequiredService<ILetsEncryptRepository>();
 
-            await keyVaultRepository.CreateSelfSignedCertificateAsync(selfSignedKeyVaultName, subjectName, subjectAlternativeNames, tags);
+            await keyVaultRepository.CreateSelfSignedCertificateAsync(selfSignedKeyVaultName, keyProperties, subjectName, subjectAlternativeNames, tags);
 
-            var csr = await keyVaultRepository.CreateLetsEncryptCertificateAsync(letsEncryptedKeyVaultName, subjectName, subjectAlternativeNames, tags);
+            var csr = await keyVaultRepository.CreateLetsEncryptCertificateAsync(letsEncryptedKeyVaultName, keyProperties, subjectName, subjectAlternativeNames, tags);
             var certificates = await letsEncryptRepository.IssueCertificateAsync(subjectAlternativeNames, csr);
             await keyVaultRepository.MergeCertificateAsync(letsEncryptedKeyVaultName, certificates);
         }

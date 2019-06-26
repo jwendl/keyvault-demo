@@ -56,6 +56,13 @@ Finally modify the Program.cs to replace the values for the following:
             // Subject alternative names
             // Most likely contoso.com
             var subjectAlternativeNames = new List<string>();
+
+            // The type of certificate you'd like to request for.
+            var keyProperties = new KeyProperties()
+            {
+                KeyType = JsonWebKeyType.EllipticCurve,
+                Curve = JsonWebKeyCurveName.P256,
+            };
 ```
 
 ## Shout Out
