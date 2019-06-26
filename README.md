@@ -16,6 +16,7 @@ Then run the following in Bash or WSL to create an Azure AD Application Registra
 > Note to those poor souls who are not administrators inside their Azure AD tenant, this script will not work for you. Please send it to your administrator so that it can get the admin consent it needs to run KeyVault commands.
 
 ``` bash
+ sudo apt install jq
 ./create-app.sh
 ```
 
